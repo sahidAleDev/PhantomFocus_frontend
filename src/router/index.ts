@@ -27,6 +27,11 @@ const router = createRouter({
           component: () => import('@/views/WeekPomodoros.vue')
 
         },
+        {
+          path: 'configuracion',
+          name: 'configuration',
+          component: () => import('@/views/ConfigurationView.vue')
+        }
       ]
     },
     {

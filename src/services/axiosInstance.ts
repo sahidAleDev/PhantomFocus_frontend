@@ -1,12 +1,14 @@
 import axios from 'axios'
+import type {
+  PostConfiguration,
+  Configuration,
+  PomodoroSession
+} from './types'
 
 const $api = axios.create({
   baseURL: 'http://localhost:3002'
 })
 
-import type {
-  PomodoroSession
-} from './types'
 
 export function useService() {
   return {
@@ -23,6 +25,9 @@ export function useService() {
       $api.get('/configuration'),
 
     getPomodoroSessions: (userID: string) => 
-      $api.get<PomodoroSession[]>('/pomodoSession')
+      $api.get<PomodoroSession[]>('/pomodoSession'),
+
+    postConfiguration: (data: PostConfiguration) =>
+      $api.post<Configuration>('/configuration', data),
   }
 }

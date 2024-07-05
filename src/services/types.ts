@@ -1,5 +1,5 @@
 export interface PomodoroSession {
-  _id: string;
+  _id?: string;
   breakDuration: number;
   createdAt: Date;
   currentCycle: number;
@@ -11,6 +11,14 @@ export interface PomodoroSession {
   startTime: Date;
   title: string;
   totalCycles: number;
+  userId: string;
+  workDuration: number;
+}
+
+export interface PostConfiguration {
+  breakDuration: number;
+  cyclesBeforeLongBreak: number;
+  longBreakDuration: number;
   userId: string;
   workDuration: number;
 }
