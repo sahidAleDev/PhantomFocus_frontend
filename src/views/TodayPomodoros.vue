@@ -39,6 +39,7 @@ onBeforeMount(async () => {
     pomodoros.value = dataPomdoroSession
     const { data: dataConfigurations } = await $service.getConfigurations()
     configurations.value = dataConfigurations
+    console.log(dataConfigurations)
   } catch (error) {
     console.error(error)
   } finally {
