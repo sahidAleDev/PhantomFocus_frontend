@@ -51,7 +51,7 @@ onBeforeMount(async () => {
 
 <template>
   <div class="space-y-6">
-    <h1 class="font-black text-4xl text-[#6A0D22]">Hoy</h1>
+    <h1 class="font-black text-4xl text-[#D10D44]">Hoy</h1>
 
     
     <PomodoroCreate :configurations="configurations" />

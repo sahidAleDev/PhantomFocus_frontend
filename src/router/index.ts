@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeLayout from '@/layouts/HomeLayout.vue'
+import { ROUTES } from './names'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,36 +12,33 @@ const router = createRouter({
       children: [
         {
           path: 'tareas-hoy',
-          name: 'today-task',
+          name: ROUTES.TODAY_TASK,
           component: () => import('@/views/TodayPomodoros.vue')
 
         },
         {
           path: 'tareas-mañana',
-          name: 'tomorrow-task',
+          name: ROUTES.TOMORROW_TASK,
           component: () => import('@/views/TomorrowPomodoros.vue')
 
         },
         {
           path: 'tareas-semana',
-          name: 'week-task',
+          name: ROUTES.WEEK_TASK,
           component: () => import('@/views/WeekPomodoros.vue')
 
         },
         {
           path: 'configuracion',
-          name: 'configuration',
+          name: ROUTES.CONFIGURATION,
           component: () => import('@/views/ConfigurationView.vue')
         }
       ]
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('@/layouts/HomeLayout.vue')
+      path: '/login',
+      name: ROUTES.LOGIN,
+      component: () => import('@/views/LoginView.vue')
     }
   ]
 })
