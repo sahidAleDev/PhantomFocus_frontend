@@ -21,12 +21,17 @@ const handleInput = (event: Event) => {
 <template>
   <div class="mb-6 w-full">
     <label :for="`${label}-input`" class="block mb-2 text-sm font-medium text-gray-900">{{ label }}</label>
+
     <input 
       :id="`${label}-input`" 
-      class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500"
-      type="number" 
       :value="value"
       @input="($event) => handleInput($event)"
-    >
+      aria-describedby="helper-text-explanation" 
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
+      placeholder="Ingrese una cantidad" 
+      required 
+      type="number" 
+      min="0"
+    />
   </div>
 </template>

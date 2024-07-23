@@ -19,16 +19,12 @@ export interface PostConfiguration {
   breakDuration: number;
   cyclesBeforeLongBreak: number;
   longBreakDuration: number;
+  name: string;
   userId: string;
   workDuration: number;
 }
 
-export interface Configuration {
+export interface Configuration extends PostConfiguration {
   _id: string;
-  breakDuration: number;
   createdAt: Date;
-  cyclesBeforeLongBreak: number;
-  longBreakDuration: number;
-  userId: string;
-  workDuration: number;
 }

@@ -15,35 +15,35 @@ import TomateIcon from '@/components/icons/TomatoIcon.vue'
 
 <template>
   <div class="md:min-h-screen md:flex">
-    <aside class="md:w-1/4 bg-[#E42A52] px-5 py-10 flex flex-col">
+    <aside class="md:w-1/4 bg-[#379777] px-5 py-10 flex flex-col">
         <div class="flex items-center justify-center gap-2 flex-wrap">
           <h2 class='text-3xl font-black text-white'>TomatoTime  </h2>
         </div>
 
         <nav class="mt-10 flex-grow">
           <RouterLink
-            class="text-white text-2xl block mt-2 hover:text-red-300"
+            class="text-white text-2xl block mt-2 hover:text-[#D6F0E5]"
             :to="{ name: ROUTES.TODAY_TASK }"
           >
             Hoy
           </RouterLink>
           
           <RouterLink
-            class="text-white text-2xl block mt-2 hover:text-red-300"
+            class="text-white text-2xl block mt-2 hover:text-[#D6F0E5]"
             :to="{ name: ROUTES.TOMORROW_TASK }"
           >
             Mañana
           </RouterLink>
           
           <RouterLink
-            class="text-white text-2xl block mt-2 hover:text-red-300"
+            class="text-white text-2xl block mt-2 hover:text-[#D6F0E5]"
             :to="{ name: ROUTES.WEEK_TASK }"
           >
             Esta semana
           </RouterLink>
           
           <RouterLink
-            class="text-white text-2xl block mt-2 hover:text-red-300"
+            class="text-white text-2xl block mt-2 hover:text-[#D6F0E5]"
             :to="{ name: ROUTES.TOMORROW_TASK }"
           >
             Completadas
@@ -52,7 +52,7 @@ import TomateIcon from '@/components/icons/TomatoIcon.vue'
 
         <nav>
           <RouterLink
-            class="text-white text-2xl block mt-2 hover:text-red-300"
+            class="text-white text-2xl block mt-2 hover:text-[#D6F0E5]"
             :to="{ name: ROUTES.CONFIGURATION }"
           >
             Configuraciones

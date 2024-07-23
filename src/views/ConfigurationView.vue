@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import InputNumber from '@/components/InputNumber.vue';
 import { onBeforeMount, ref } from 'vue';
 import useServices, { type Configuration } from '@/services'
 
 
+/**
+ * ------------------------------------------
+ *	Components
+ * ------------------------------------------
+ */
+import InputNumber from '@/components/InputNumber.vue';
+import TextInput from '@/components/forms/TextInput.vue';
 import ConfigurationCard from '@/components/ConfigurationCard.vue';
-import { get } from 'node_modules/axios/index.cjs';
 
 /**
  * ------------------------------------------
@@ -31,6 +36,7 @@ const cyclesBeforeLongBreak = ref<number>(0);
 const longBreakDuration = ref<number>(0);
 const workDuration = ref<number>(0);
 const configurations = ref<Configuration[]>([])
+const configurationName = ref<string>('')
 
 /**
  * ------------------------------------------
@@ -57,6 +63,7 @@ const handleSubmit = async () => {
 
   try {
     const { data } = await $service.postConfiguration({
+      name: configurationName.value,
       breakDuration: breakDuration.value,
       cyclesBeforeLongBreak: cyclesBeforeLongBreak.value,
       longBreakDuration: longBreakDuration.value,
@@ -94,15 +101,15 @@ onBeforeMount(async () => {
 
     <section class="flex gap-4">
       <button 
-        class="p-4 rounded-lg text-base font-bold text-[#453A1E] border border-[#FAD376] hover:text-white hover:bg-[#F2BD1D] transition"
-        :class="{ 'bg-[#F2BD1D] !text-white': currentNav === NAV.CREATE_CONFIG }"
+        class="p-4 rounded-lg text-base font-bold text-[#278A6B] border border-[#278A6B] hover:text-white hover:bg-[#278A6B] transition"
+        :class="{ 'bg-[#278A6B] !text-white': currentNav === NAV.CREATE_CONFIG }"
         @click="currentNav = NAV.CREATE_CONFIG"
       >
         Crear configuración
       </button>
       <button 
-        class="p-4 rounded-lg text-base font-bold text-[#453A1E] border border-[#FAD376] hover:text-white hover:bg-[#F2BD1D] transition"
-        :class="{ 'bg-[#F2BD1D] !text-white': currentNav === NAV.LIST_CONFIG }"
+        class="p-4 rounded-lg text-base font-bold text-[#278A6B] border border-[#278A6B] hover:text-white hover:bg-[#278A6B] transition"
+        :class="{ 'bg-[#278A6B] !text-white': currentNav === NAV.LIST_CONFIG }"
         @click="currentNav = NAV.LIST_CONFIG"
       >
         Listar configuraciones
@@ -114,11 +121,12 @@ onBeforeMount(async () => {
         @submit.prevent="handleSubmit"
         class="max-w-md mx-auto" 
       >
+        <TextInput label="Nombre de la configuración" v-model:value="configurationName" />
         <InputNumber label="Sesiones antes del descanso largo" v-model:value="cyclesBeforeLongBreak"/>
         <InputNumber label="Minutos de descanso corto" v-model:value="breakDuration"/>
         <InputNumber label="Minutos de descanso largo" v-model:value="longBreakDuration"/>
         <InputNumber label="Minutos de trabajo por sesión" v-model:value="workDuration"/>
-        <button type="submit" class="block w-full p-4 mt-6 rounded-lg text-base font-bold text-[#F29422] border border-[#F28992] hover:text-white hover:bg-[#F29422] transition">Guardar</button>
+        <button type="submit" class="block w-full p-4 mt-6 rounded-lg text-base font-bold text-[#45474B] border border-[#45474B] hover:text-white hover:bg-[#45474B] transition">Guardar</button>
       </form>
     </section>
 
