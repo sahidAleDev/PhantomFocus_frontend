@@ -1,14 +1,25 @@
 <script setup lang="ts">
-  import type { User } from '@/types/index';
-  import { ref } from 'vue';
+import type { User } from '@/types/index';
+import { ref } from 'vue';
+import useServices from '@/services';
 
-  const user = ref<User>({
-    username: '',
-    password: '',
-  });
 
-const handleSubmit = () => {
-  console.log(user.value);
+const $service = useServices()
+
+
+const user = ref<User>({
+  username: '',
+  password: '',
+});
+
+const handleSubmit = async () => {
+
+  try {
+    const { data } = await $service.login(user.value);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
 };
 </script>
 

@@ -4,9 +4,11 @@ import type {
   Configuration,
   PomodoroSession
 } from './types'
+import type { User } from '@/types'
 
 const $api = axios.create({
-  baseURL: 'http://localhost:3002'
+  baseURL: 'http://localhost:3002',
+  withCredentials: true,
 })
 
 
@@ -21,6 +23,9 @@ export function useService() {
      * @returns
      */
 
+    login: (user: User) => 
+      $api.post('/user/login', user),
+
     getConfigurations: () => 
       $api.get('/configuration'),
 
@@ -29,5 +34,8 @@ export function useService() {
 
     postConfiguration: (data: PostConfiguration) =>
       $api.post<Configuration>('/configuration', data),
+
+    validateToken: () =>
+      $api.get('/token/validate'),
   }
 }
