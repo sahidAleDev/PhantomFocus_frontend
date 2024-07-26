@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@layer components {
+  .text-green-custom {
+    @apply text-[#137E5F];
+  }
+
+  .input {
+    @apply bg-gray-50 border border-[#45474B] text-[#45474B] text-sm rounded-lg focus:ring-[#137E5F] focus:border-[#137E5F] block w-full p-2.5
+  }
+}
+
 :root {
   /*General*/
   --dp-font-family: -apple-system, blinkmacsystemfont, "Segoe UI", roboto, oxygen, ubuntu, cantarell, "Open Sans",

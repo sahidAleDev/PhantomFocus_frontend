@@ -1,18 +1,22 @@
-export interface PomodoroSession {
-  _id?: string;
+export interface PostPomodoroSession {
   breakDuration: number;
   createdAt: Date;
   currentCycle: number;
+  cyclesBeforeLongBreak: number;
   endTime: Date;
   isActive: boolean;
   isCompleted: boolean;
+  longBreakDuration: number;
   pauseTime: Date;
   resumeTime: Date;
   startTime: Date;
   title: string;
-  totalCycles: number;
   userId: string;
   workDuration: number;
+}
+
+export interface GetPomodoroSession extends PostPomodoroSession {
+  _id: string;
 }
 
 export interface PostConfiguration {
@@ -24,7 +28,7 @@ export interface PostConfiguration {
   workDuration: number;
 }
 
-export interface Configuration extends PostConfiguration {
+export interface GetConfiguration extends PostConfiguration {
   _id: string;
   createdAt: Date;
 }

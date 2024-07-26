@@ -1,8 +1,9 @@
 import axios from 'axios'
 import type {
   PostConfiguration,
-  Configuration,
-  PomodoroSession
+  PostPomodoroSession,
+  GetConfiguration,
+  GetPomodoroSession
 } from './types'
 import type { User } from '@/types'
 
@@ -26,14 +27,20 @@ export function useService() {
     login: (user: User) => 
       $api.post('/user/login', user),
 
+    logout: () =>
+      $api.post('/user/logout'),
+
     getConfigurations: () => 
       $api.get('/configuration'),
 
     getPomodoroSessions: (userID: string) => 
-      $api.get<PomodoroSession[]>('/pomodoSession'),
+      $api.get<GetPomodoroSession[]>('/pomodoSession'),
+
+    postPomodoroSession: (data: PostPomodoroSession) => 
+      $api.post('/pomodoSession', data),
 
     postConfiguration: (data: PostConfiguration) =>
-      $api.post<Configuration>('/configuration', data),
+      $api.post<GetConfiguration>('/configuration', data),
 
     validateToken: () =>
       $api.get('/token/validate'),

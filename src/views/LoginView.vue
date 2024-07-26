@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import type { User } from '@/types/index';
 import { ref } from 'vue';
+import { ROUTES } from '@/router/names'
+import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/user';
+import type { User } from '@/types/index';
 import useServices from '@/services';
 
-
+const $router = useRouter();
 const $service = useServices()
-
+const $user = useUserStore()
 
 const user = ref<User>({
   username: '',
@@ -13,10 +16,10 @@ const user = ref<User>({
 });
 
 const handleSubmit = async () => {
-
   try {
     const { data } = await $service.login(user.value);
-    console.log(data);
+    $user.setUser(data.user);
+    $router.push({ name: ROUTES.HOME });
   } catch (error) {
     console.error(error);
   }
