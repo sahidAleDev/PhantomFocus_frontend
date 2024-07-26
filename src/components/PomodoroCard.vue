@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PomodoroSession } from '@/services';
+import type { GetPomodoroSession } from '@/services';
 
 import CircleCheck from './icons/CircleCheck.vue';
 import FireIcon from './icons/FireIcon.vue';
@@ -7,11 +7,11 @@ import FireIcon from './icons/FireIcon.vue';
 import { computed, ref } from 'vue';
 
 interface Props {
-  pomodoro: PomodoroSession
+  pomodoro: GetPomodoroSession
 }
 
 interface Emits {
-  (e: 'remove', pomodoro: PomodoroSession): void
+  (e: 'remove', pomodoro: GetPomodoroSession): void
 }
 
 const $emits = defineEmits<Emits>()
@@ -24,7 +24,7 @@ const completedPomodoros = computed(() => {
 })
 
 const uncompletedPomodoros = computed(() => {
-  return $props.pomodoro.totalCycles - $props.pomodoro.currentCycle
+  return $props.pomodoro.cyclesBeforeLongBreak - $props.pomodoro.currentCycle
 })
 
 function remove() {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onBeforeMount, ref } from 'vue';
-import useServices, { type Configuration } from '@/services'
+import useServices, { type GetConfiguration } from '@/services'
 
 
 /**
@@ -26,16 +26,16 @@ const $service = useServices()
  */
 
 enum NAV {
-  CREATE_CONFIG = 0,
-  LIST_CONFIG = 1
+  LIST_CONFIG = 0,
+  CREATE_CONFIG = 1
 }
 
-const currentNav = ref<NAV>(NAV.CREATE_CONFIG);
+const currentNav = ref<NAV>(NAV.LIST_CONFIG);
 const breakDuration = ref<number>(0);
 const cyclesBeforeLongBreak = ref<number>(0);
 const longBreakDuration = ref<number>(0);
 const workDuration = ref<number>(0);
-const configurations = ref<Configuration[]>([])
+const configurations = ref<GetConfiguration[]>([])
 const configurationName = ref<string>('')
 
 /**
@@ -102,17 +102,17 @@ onBeforeMount(async () => {
     <section class="flex gap-4">
       <button 
         class="p-4 rounded-lg text-base font-bold text-[#278A6B] border border-[#278A6B] hover:text-white hover:bg-[#278A6B] transition"
-        :class="{ 'bg-[#278A6B] !text-white': currentNav === NAV.CREATE_CONFIG }"
-        @click="currentNav = NAV.CREATE_CONFIG"
-      >
-        Crear configuración
-      </button>
-      <button 
-        class="p-4 rounded-lg text-base font-bold text-[#278A6B] border border-[#278A6B] hover:text-white hover:bg-[#278A6B] transition"
         :class="{ 'bg-[#278A6B] !text-white': currentNav === NAV.LIST_CONFIG }"
         @click="currentNav = NAV.LIST_CONFIG"
       >
         Listar configuraciones
+      </button>
+      <button 
+        class="p-4 rounded-lg text-base font-bold text-[#278A6B] border border-[#278A6B] hover:text-white hover:bg-[#278A6B] transition"
+        :class="{ 'bg-[#278A6B] !text-white': currentNav === NAV.CREATE_CONFIG }"
+        @click="currentNav = NAV.CREATE_CONFIG"
+      >
+        Crear configuración
       </button>
     </section>
     

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Configuration } from '@/services';
+import type { GetConfiguration } from '@/services';
 
 import ClockIcon from './icons/ClockIcon.vue';
 import FaceIcon from './icons/FaceIcon.vue';
@@ -7,7 +7,7 @@ import PauseIcon from './icons/PauseIcon.vue';
 import { computed } from 'vue';
 
 interface Props {
-  configuration: Configuration;
+  configuration: GetConfiguration;
 }
 
 const $props = defineProps<Props>();
@@ -20,13 +20,13 @@ const totalTime = computed(() => {
 </script>
 
 <template>
-  <div class="bg-[#45474B]/20 rounded-xl p-4 space-y-4">
-    <h2 class="text-lg text-[#690F22] font-bold uppercase">Configuración</h2>
+  <div class="bg-[#45474B] rounded-xl p-4 space-y-4 text-white">
+    <h2 class="text-lg font-bold uppercase">Configuración</h2>
 
     <div>
       <p class="flex justify-between">
         <span class="flex items-center gap-1">
-          <ClockIcon class="size-5 text-[#F29422]" />
+          <ClockIcon class="size-5 text-[#F4CE14]" />
           Sesiones de trabajo
         </span>
         
@@ -39,7 +39,7 @@ const totalTime = computed(() => {
   
       <p class="flex justify-between">
         <span class="flex items-center gap-1">
-          <PauseIcon class="size-5 text-[#F29422]" />
+          <PauseIcon class="size-5 text-[#F4CE14]" />
           Descansos cortos
         </span>
         
@@ -50,7 +50,7 @@ const totalTime = computed(() => {
       
       <p class="flex justify-between">
         <span class="flex items-center gap-1">
-          <FaceIcon class="size-5 text-[#F29422]" />
+          <FaceIcon class="size-5 text-[#F4CE14]" />
           Descanso largo
         </span>
         

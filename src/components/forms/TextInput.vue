@@ -20,10 +20,10 @@ const handleInput = (event: Event) => {
 
 <template>
   <div class="mb-6 w-full">
-    <label :for="`${label}-input`" class="block mb-2 text-sm font-medium text-gray-900">{{ label }}</label>
+    <label :for="`${label}-input`" class="block mb-2 text-sm font-medium text-green-custom">{{ label }}</label>
     <input 
       :id="`${label}-input`" 
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+      class="input"
       type="text" 
       :value="value"
       @input="($event) => handleInput($event)"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import useServices, { type PomodoroSession, type Configuration } from '@/services'
+import useServices, { type GetPomodoroSession, type GetConfiguration } from '@/services'
 import { onBeforeMount, ref } from 'vue';
 
 /**
@@ -24,11 +24,11 @@ const $service = useServices()
  * ------------------------------------------
  */
 
-const configurations = ref<Configuration[]>([])
-const pomodoros = ref<PomodoroSession[]>([])
+const configurations = ref<GetConfiguration[]>([])
+const pomodoros = ref<GetPomodoroSession[]>([])
 const loading = ref<boolean>(true)
 
-function removeItem(pomodoroToRemove: PomodoroSession) {
+function removeItem(pomodoroToRemove: GetPomodoroSession) {
   pomodoros.value = pomodoros.value.filter((pomodoro) => pomodoro._id !== pomodoroToRemove._id)
 }
 
@@ -53,7 +53,6 @@ onBeforeMount(async () => {
   <div class="space-y-6">
     <h1 class="font-black text-4xl text-[#137E5F]">Hoy</h1>
 
-    
     <PomodoroCreate :configurations="configurations" />
 
     <div v-if="!loading" class="space-y-4" v-auto-animate>

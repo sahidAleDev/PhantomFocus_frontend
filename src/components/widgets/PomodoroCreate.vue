@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { Configuration } from '@/services';
+import type { GetConfiguration } from '@/services';
 import { ref } from 'vue';
 
 interface Props {
-  configurations: Configuration[]
+  configurations: GetConfiguration[]
 }
 
 defineProps<Props>()
