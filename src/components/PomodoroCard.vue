@@ -4,7 +4,7 @@ import type { GetPomodoroSession } from '@/services';
 import CircleCheck from './icons/CircleCheck.vue';
 import FireIcon from './icons/FireIcon.vue';
 
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 interface Props {
   pomodoro: GetPomodoroSession
@@ -20,23 +20,26 @@ const $props = defineProps<Props>()
 const showIcon = ref<boolean>(false);
 
 const completedPomodoros = computed(() => {
-  return $props.pomodoro.currentCycle - 1
+  const cycles = $props.pomodoro.currentCycle;
+  return cycles > 0 ? cycles - 1 : 0;
 })
 
 const uncompletedPomodoros = computed(() => {
-  return $props.pomodoro.cyclesBeforeLongBreak - $props.pomodoro.currentCycle
+  const cyclesBeforeLongBreak = $props.pomodoro.cyclesBeforeLongBreak;
+  const currentCycle = $props.pomodoro.currentCycle;
+  return cyclesBeforeLongBreak > currentCycle ? cyclesBeforeLongBreak - currentCycle : 0;
 })
 
 function remove() {
-  showIcon.value = true
-  $emits('remove', $props.pomodoro)
+  showIcon.value = true;
+  $emits('remove', $props.pomodoro);
 }
 
 </script>
 
 <template>
   <div>
-    <div class="bg-[#252A34] text-white px-4 py-2 rounded-md flex gap-2 items-center shadow-lg">
+    <div class="bg-[#45474B] text-white px-4 py-2 rounded-md flex gap-2 items-center shadow-lg">
 
       <div 
         @click="remove" 
@@ -50,9 +53,9 @@ function remove() {
         <p class="font-bold uppercase">{{ pomodoro.title }}</p>
         
         <div class="flex gap-0.5">
-          <FireIcon v-for="(_,index) in completedPomodoros" :key="index" class="text-red-500 size-4" />
+          <FireIcon v-for="(_, index) in completedPomodoros" :key="index" class="text-red-500 size-4" />
           <FireIcon v-if="pomodoro.isActive" class="text-red-500 size-4"/>
-          <FireIcon v-for="(_,index) in uncompletedPomodoros" :key="index" class="text-red-500 size-4 opacity-40"/>
+          <FireIcon v-for="(_, index) in uncompletedPomodoros" :key="index" class="text-red-500 size-4 opacity-40"/>
         </div>
       </div>
     </div>

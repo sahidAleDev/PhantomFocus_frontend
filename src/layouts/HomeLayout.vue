@@ -13,6 +13,7 @@ import useService from '@/services';
 
 import UserCircleIcon from '@/components/icons/UserCircleIcon.vue';
 import ArrowRightBracket from '@/components/icons/ArrowRightBracket.vue';
+import DialogPomodoro from '@/components/widgets/DialogPomodoro.vue';
 /**
  * ------------------------------------------
  *	Utils
@@ -40,6 +41,7 @@ const handleLogout = async () => {
 </script>
 
 <template>
+
   <div class="md:min-h-screen md:flex">
     <aside class="md:w-1/4 bg-[#379777] px-5 py-10 flex flex-col">
         <div class="flex items-center justify-center gap-2 flex-wrap">
