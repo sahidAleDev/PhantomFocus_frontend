@@ -1,8 +1,9 @@
 <script setup lang="ts">
   
 interface Props {
-  label: string
+  id: string
   value: string
+  classNames?: string
 }
 
 interface Emits {
@@ -19,14 +20,13 @@ const handleInput = (event: Event) => {
 </script>
 
 <template>
-  <div class="mb-6 w-full">
-    <label :for="`${label}-input`" class="block mb-2 text-sm font-medium text-green-custom">{{ label }}</label>
-    <input 
-      :id="`${label}-input`" 
-      class="input"
-      type="text" 
-      :value="value"
-      @input="($event) => handleInput($event)"
-    >
-  </div>
+  <input 
+    :class="classNames"
+    :id="`${id}-input`" 
+    :value="value"
+    class="input"
+    placeholder="Ingresa el valor"
+    type="text" 
+    @input="($event) => handleInput($event)"
+  >
 </template>

@@ -8,9 +8,10 @@ import useServices, { type GetConfiguration } from '@/services'
  *	Components
  * ------------------------------------------
  */
-import InputNumber from '@/components/InputNumber.vue';
-import TextInput from '@/components/forms/TextInput.vue';
+import InputNumber from '@/components/forms/InputNumber.vue';
+import TextInput from '@/components/forms/InputText.vue';
 import ConfigurationCard from '@/components/ConfigurationCard.vue';
+import InputLabel from '@/components/forms/InputLabel.vue';
 
 /**
  * ------------------------------------------
@@ -121,7 +122,10 @@ onBeforeMount(async () => {
         @submit.prevent="handleSubmit"
         class="max-w-md mx-auto" 
       >
-        <TextInput label="Nombre de la configuración" v-model:value="configurationName" />
+        <div>
+          <InputLabel forLabel="nombre-configuracion" value="Nombre de la configuración" />
+          <TextInput id="nombre-configuracion" v-model:value="configurationName" />
+        </div>
         <InputNumber label="Sesiones antes del descanso largo" v-model:value="cyclesBeforeLongBreak"/>
         <InputNumber label="Minutos de descanso corto" v-model:value="breakDuration"/>
         <InputNumber label="Minutos de descanso largo" v-model:value="longBreakDuration"/>
