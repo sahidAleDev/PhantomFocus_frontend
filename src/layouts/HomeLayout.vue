@@ -42,48 +42,44 @@ const handleLogout = async () => {
 
 <template>
 
-  <div class="md:min-h-screen md:flex">
-    <aside class="md:w-1/4 bg-[#379777] px-5 py-10 flex flex-col">
-        <div class="flex items-center justify-center gap-2 flex-wrap">
-          <h2 class='text-3xl font-black text-white'>TomatoTime  </h2>
+  
+  <aside class="px-10 py-10">
+      <section class="flex justify-end items-center gap-4">
+        <div class="flex items-center gap-1 text-white">
+          <UserCircleIcon class="size-5" />
+          <p class="text-2xl">{{ $user.getUser?.username }}</p>
         </div>
 
-        <nav class="mt-10 md:flex-grow space-y-2">
-          <RouterLink
-            class="text-white text-2xl block hover:text-[#D6F0E5]"
-            :to="{ name: ROUTES.TODAY_TASK }"
-          >
-            Hoy
-          </RouterLink>
-          
-          <RouterLink
-            class="text-white text-2xl block hover:text-[#D6F0E5]"
-            :to="{ name: ROUTES.TOMORROW_TASK }"
-          >
-            Completadas
-          </RouterLink>
+        <ArrowRightBracket @click="handleLogout" class="size-6 text-white cursor-pointer" />
+      </section>
 
-          <RouterLink
-            class="text-white text-2xl block hover:text-[#D6F0E5]"
-            :to="{ name: ROUTES.CONFIGURATION }"
-          >
-            Configuraciones
-          </RouterLink>
-        </nav>
+      <h2 class='text-center text-3xl font-black text-white'>TomatoTime  </h2>
 
-        <section class="flex justify-between items-center mt-2">
-          <div class="flex items-center gap-1 text-white">
-            <UserCircleIcon class="size-5" />
-            <p class="text-2xl">{{ $user.getUser?.username }}</p>
-          </div>
+      <nav class="mt-10 w-2/3 md:w-1/3 mx-auto gap-4 pb-4 text-white flex flex-wrap justify-center items-cente border border-l-0 border-t-0 border-r-0 border-b">
+        <RouterLink
+          class="text-white text-2xl block hover:text-[#D5E1F0]"
+          :to="{ name: ROUTES.TODAY_TASK }"
+        >
+          Sesiones
+        </RouterLink>
+        
+        <RouterLink
+          class="text-white text-2xl block hover:text-[#D5E1F0]"
+          :to="{ name: ROUTES.TOMORROW_TASK }"
+        >
+          Completadas
+        </RouterLink>
 
-          <ArrowRightBracket @click="handleLogout" class="size-6 text-white cursor-pointer" />
-        </section>
+        <RouterLink
+          class="text-white text-2xl block hover:text-[#D5E1F0]"
+          :to="{ name: ROUTES.CONFIGURATION }"
+        >
+          Configuraciones
+        </RouterLink>
+      </nav>
+  </aside>
 
-    </aside>
-
-    <main class="md:w-3/4 p-10 md:h-screen">
-      <RouterView/>
-    </main>
-  </div>
+  <main class="w-2/3 mx-auto">
+    <RouterView/>
+  </main>
 </template>

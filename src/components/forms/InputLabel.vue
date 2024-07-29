@@ -2,11 +2,12 @@
 interface Props {
   value: string
   forLabel: string
+  className?: string
 }
 
 defineProps<Props>()
 </script>
 <template>
-  <label :for="`${forLabel}-input`" class="block font-extralight text-base text-green-custom">{{ value }}</label>
+  <label :for="`${forLabel}-input`" class="block font-extralight text-base" :class="className">{{ value }}</label>
 </template>
 

@@ -20,13 +20,13 @@ const totalTime = computed(() => {
 </script>
 
 <template>
-  <div class="bg-[#45474B] rounded-xl p-4 space-y-4 text-white">
+  <div class="bg-[#F5F5F5] rounded-xl p-4 space-y-4 text-[#506A88]">
     <h2 class="text-lg font-bold uppercase">Configuración</h2>
 
     <div>
       <p class="flex justify-between">
         <span class="flex items-center gap-1">
-          <ClockIcon class="size-5 text-[#F4CE14]" />
+          <ClockIcon class="size-5 text-[#506A88]" />
           Sesiones de trabajo
         </span>
         
@@ -39,7 +39,7 @@ const totalTime = computed(() => {
   
       <p class="flex justify-between">
         <span class="flex items-center gap-1">
-          <PauseIcon class="size-5 text-[#F4CE14]" />
+          <PauseIcon class="size-5 text-[#506A88]" />
           Descansos cortos
         </span>
         
@@ -50,7 +50,7 @@ const totalTime = computed(() => {
       
       <p class="flex justify-between">
         <span class="flex items-center gap-1">
-          <FaceIcon class="size-5 text-[#F4CE14]" />
+          <FaceIcon class="size-5 text-[#506A88]" />
           Descanso largo
         </span>
         

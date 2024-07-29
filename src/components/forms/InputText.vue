@@ -24,8 +24,9 @@ const handleInput = (event: Event) => {
     :class="classNames"
     :id="`${id}-input`" 
     :value="value"
-    class="input"
+    class="input input-medium"
     placeholder="Ingresa el valor"
+    required
     type="text" 
     @input="($event) => handleInput($event)"
   >

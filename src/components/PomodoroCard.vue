@@ -39,17 +39,17 @@ function remove() {
 
 <template>
   <div>
-    <div class="bg-[#45474B] text-white px-4 py-2 rounded-md flex gap-2 items-center shadow-lg">
+    <div class="bg-[#F5F5F5] text-white px-4 py-2 rounded-md flex gap-2 items-center shadow-lg">
 
       <div 
         @click="remove" 
-        class="bg-white rounded-full"
+        class="bg-white border border-black rounded-full"
         :class="{'p-3': !showIcon}"
       >
         <CircleCheck v-if="showIcon" class="bg-green-500 size-6 rounded-full" />
       </div>
 
-      <div class="">
+      <div class="text-[#506A88]">
         <p class="font-bold uppercase">{{ pomodoro.title }}</p>
         
         <div class="flex gap-0.5">

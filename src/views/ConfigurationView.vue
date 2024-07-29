@@ -102,15 +102,15 @@ onBeforeMount(async () => {
 
     <section class="flex gap-4">
       <button 
-        class="p-4 rounded-lg text-base font-bold text-[#278A6B] border border-[#278A6B] hover:text-white hover:bg-[#278A6B] transition"
-        :class="{ 'bg-[#278A6B] !text-white': currentNav === NAV.LIST_CONFIG }"
+        class="btn-medium btn-primary-outline hover:text-white hover:bg-[#364F6B] transition"
+        :class="{ 'bg-[#364F6B] !text-white': currentNav === NAV.LIST_CONFIG }"
         @click="currentNav = NAV.LIST_CONFIG"
       >
         Listar configuraciones
       </button>
       <button 
-        class="p-4 rounded-lg text-base font-bold text-[#278A6B] border border-[#278A6B] hover:text-white hover:bg-[#278A6B] transition"
-        :class="{ 'bg-[#278A6B] !text-white': currentNav === NAV.CREATE_CONFIG }"
+        class="btn-medium btn-primary-outline hover:text-white hover:bg-[#364F6B] transition"
+        :class="{ 'bg-[#364F6B] !text-white': currentNav === NAV.CREATE_CONFIG }"
         @click="currentNav = NAV.CREATE_CONFIG"
       >
         Crear configuración
@@ -120,17 +120,34 @@ onBeforeMount(async () => {
     <section v-if="currentNav === NAV.CREATE_CONFIG" >
       <form 
         @submit.prevent="handleSubmit"
-        class="max-w-md mx-auto" 
+        class="max-w-md mx-auto space-y-4" 
       >
         <div>
-          <InputLabel forLabel="nombre-configuracion" value="Nombre de la configuración" />
+          <InputLabel forLabel="nombre-configuracion" value="Nombre de la configuración" className="text-white"/>
           <TextInput id="nombre-configuracion" v-model:value="configurationName" />
         </div>
-        <InputNumber label="Sesiones antes del descanso largo" v-model:value="cyclesBeforeLongBreak"/>
-        <InputNumber label="Minutos de descanso corto" v-model:value="breakDuration"/>
-        <InputNumber label="Minutos de descanso largo" v-model:value="longBreakDuration"/>
-        <InputNumber label="Minutos de trabajo por sesión" v-model:value="workDuration"/>
-        <button type="submit" class="block w-full p-4 mt-6 rounded-lg text-base font-bold text-[#45474B] border border-[#45474B] hover:text-white hover:bg-[#45474B] transition">Guardar</button>
+
+        <div>
+          <InputLabel forLabel="sesiones-antes-descanso-largo" value="Sesiones antes del descanso largo" className="text-white" />
+          <InputNumber id="sesiones-antes-descanso-largo" v-model:value="cyclesBeforeLongBreak"/>
+        </div>
+
+        <div>
+          <InputLabel forLabel="Minutos de descanso corto" value="Minutos de descanso corto" className="text-white"/>
+          <InputNumber id="minutos-de-descanso-corto" v-model:value="breakDuration"/>
+        </div>
+
+        <div>
+          <InputLabel forLabel="Minutos de descanso largo" value="Minutos de descanso largo" className="text-white"/>
+          <InputNumber id="minutos-de-descanso-largo" v-model:value="longBreakDuration"/>
+        </div>
+
+        <div>
+          <InputLabel forLabel="Minutos de trabajo por sesión" value="Minutos de trabajo por sesión" className="text-white"/>
+          <InputNumber id="minutos-de-trabajo-por-sesión" v-model:value="workDuration"/>
+        </div>
+
+        <button type="submit" class="btn-primary btn-medium w-full">Guardar</button>
       </form>
     </section>
 

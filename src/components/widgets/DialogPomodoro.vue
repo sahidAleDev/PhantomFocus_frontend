@@ -90,7 +90,7 @@ const saveSession = async () => {
 
         <div class="space-y-2 sm:space-y-6">
           <div class="container-dialog-input">
-            <InputLabel value="Nombre" forLabel="nombre-sesion" />
+            <InputLabel value="Nombre" forLabel="nombre-sesion" className="text-black"/>
             <InputText v-model:value="sessionName" id="nombre-sesion" classNames="p-2.5 sm:col-span-4 w-full" />
           </div>
 
@@ -115,10 +115,10 @@ const saveSession = async () => {
         </div>
 
         <div class="flex justify-end gap-2">
-          <button @click="$emit('action:cancel')" role="button" class="btn-secondary">
+          <button @click="$emit('action:cancel')" role="button" class="btn-primary-outline btn-small">
             Cancelar
           </button>
-          <button type="submit" role="button" class="btn-primary">
+          <button type="submit" role="button" class="btn-primary btn-small">
             Guardar
           </button>
         </div>

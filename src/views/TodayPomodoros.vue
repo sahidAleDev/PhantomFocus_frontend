@@ -55,11 +55,9 @@ onBeforeMount(async () => {
   <DialogPomodoro v-if="showDialog" @action:cancel="showDialog = false" :configurations="configurations"/>
   
   <div class="space-y-6">
-    <h1 class="font-black text-4xl text-[#137E5F]">Hoy</h1>
 
-    <button class="btn-blue-outline" @click="showDialog = true">Crear sesión</button>
+    <button class="btn-small btn-primary" @click="showDialog = true">Crear sesión</button>
 
-    
     <div v-if="!loading" class="grid grid-cols-2 gap-2 " v-auto-animate>
       <PomodoroCard 
         v-for="(pomodoro, index) in pomodoros" 

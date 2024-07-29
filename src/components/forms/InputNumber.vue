@@ -1,7 +1,7 @@
 <script setup lang="ts">
   
 interface Props {
-  label: string
+  id: string
   value: number
 }
 
@@ -19,19 +19,17 @@ const handleInput = (event: Event) => {
 </script>
 
 <template>
-  <div class="mb-6 w-full">
-    <label :for="`${label}-input`" class="block mb-2 text-sm font-medium text-green-custom">{{ label }}</label>
+  <div>
 
     <input 
-      :id="`${label}-input`" 
+      :id="`${id}-input`" 
       :value="value"
-      @input="($event) => handleInput($event)"
-      aria-describedby="helper-text-explanation" 
-      class="input" 
+      class="input input-medium" 
+      min="0"
       placeholder="Ingrese una cantidad" 
       required 
       type="number" 
-      min="0"
+      @input="($event) => handleInput($event)"
     />
   </div>
 </template>

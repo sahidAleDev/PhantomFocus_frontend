@@ -5,28 +5,48 @@
 
 @layer components {
 
-  .btn-primary {
-    @apply bg-[#137E5F] text-[#F5F7F8] rounded-lg px-2.5 py-1 cursor-pointer;
+  .btn-small {
+    @apply  rounded-lg px-2 py-1 cursor-pointer;
   }
 
+  .btn-medium {
+    @apply  rounded-lg px-2.5 py-2.5 cursor-pointer;
+  }
+
+  .btn-primary {
+    @apply bg-[#364F6B] text-[#F5F7F8] hover:bg-[#323F4E];
+  }
+
+  .btn-primary-outline {
+    @apply  bg-[#EBF2FA] text-[#506A88];
+  }
+  
   .btn-secondary {
-    @apply border border-[#45474B] bg-[#F5F7F8] text-[#45474B] rounded-lg px-2.5 py-1 cursor-pointer;
+    @apply bg-[#3FC1C9] text-[#3FC1C9];
+  }
+
+  .btn-secondary-outline {
+    @apply border border-[#3FC1C9] bg-[#F5F7F8] text-[#3FC1C9];
   }
 
   .btn-blue {
-    @apply bg-blue-500 text-[#F5F7F8] rounded-lg px-2.5 py-1 cursor-pointer;
+    @apply bg-blue-500 text-[#F5F7F8];
   }
 
   .btn-blue-outline {
-    @apply border border-blue-500 bg-[#F5F7F8] text-blue-500 rounded-lg px-2.5 py-1 cursor-pointer;
-  }
-
-  .text-green-custom {
-    @apply text-[#137E5F];
+    @apply border border-[#393E46] bg-[#EEEEEE] text-[#393E46];
   }
 
   .input {
     @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full placeholder:text-gray-900
+  }
+
+  .input-small {
+    @apply px-2 py-1
+  }
+
+  .input-medium {
+    @apply px-2.5 py-2.5
   }
 
   .container-dialog-input {
