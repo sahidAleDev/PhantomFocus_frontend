@@ -49,13 +49,13 @@ function remove() {
         <CircleCheck v-if="showIcon" class="bg-green-500 size-6 rounded-full" />
       </div>
 
-      <div class="text-[#506A88]">
+      <div class="text-[#253240]">
         <p class="font-bold uppercase">{{ pomodoro.title }}</p>
         
         <div class="flex gap-0.5">
-          <FireIcon v-for="(_, index) in completedPomodoros" :key="index" class="text-red-500 size-4" />
-          <FireIcon v-if="pomodoro.isActive" class="text-red-500 size-4"/>
-          <FireIcon v-for="(_, index) in uncompletedPomodoros" :key="index" class="text-red-500 size-4 opacity-40"/>
+          <FireIcon v-for="(_, index) in completedPomodoros" :key="index" class="text-[#ED447A] size-4" />
+          <FireIcon v-if="pomodoro.isActive" class="text-[#ED447A] size-4"/>
+          <FireIcon v-for="(_, index) in uncompletedPomodoros" :key="index" class="text-[#ED447A] size-4 opacity-40"/>
         </div>
       </div>
     </div>

@@ -58,7 +58,7 @@ onBeforeMount(async () => {
 
     <button class="btn-small btn-primary" @click="showDialog = true">Crear sesión</button>
 
-    <div v-if="!loading" class="grid grid-cols-2 gap-2 " v-auto-animate>
+    <div v-if="!loading" class="grid grid-cols-1 lg:grid-cols-3 gap-2 " v-auto-animate>
       <PomodoroCard 
         v-for="(pomodoro, index) in pomodoros" 
         :key="`${pomodoro._id}-${index}`" 

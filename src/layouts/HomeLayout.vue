@@ -44,7 +44,7 @@ const handleLogout = async () => {
 
   
   <aside class="px-10 py-10">
-      <section class="flex justify-end items-center gap-4">
+      <section class="flex justify-end items-center gap-4 mb-20">
         <div class="flex items-center gap-1 text-white">
           <UserCircleIcon class="size-5" />
           <p class="text-2xl">{{ $user.getUser?.username }}</p>
@@ -53,9 +53,14 @@ const handleLogout = async () => {
         <ArrowRightBracket @click="handleLogout" class="size-6 text-white cursor-pointer" />
       </section>
 
-      <h2 class='text-center text-3xl font-black text-white'>TomatoTime  </h2>
+      <div class="flex flex-col lg:flex-row justify-center items-center gap-4">
+        <h2 class='text-center text-3xl font-black text-white'>PhantomFocus</h2>
+        <figure class="w-20">
+          <img class="w-full" src="/phantom.png" alt="">
+        </figure>
+      </div>
 
-      <nav class="mt-10 w-2/3 md:w-1/3 mx-auto gap-4 pb-4 text-white flex flex-wrap justify-center items-cente border border-l-0 border-t-0 border-r-0 border-b">
+      <nav class="mt-10 w-2/3 md:w-1/3 mx-auto gap-x-12 gap-y-4 pb-4 text-white flex flex-wrap justify-center items-cente border border-l-0 border-t-0 border-r-0 border-b">
         <RouterLink
           class="text-white text-2xl block hover:text-[#D5E1F0]"
           :to="{ name: ROUTES.TODAY_TASK }"

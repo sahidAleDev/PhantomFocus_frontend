@@ -22,11 +22,11 @@
   }
   
   .btn-secondary {
-    @apply bg-[#3FC1C9] text-[#3FC1C9];
+    @apply bg-[#FC5185] text-[#F5F7F8];
   }
 
   .btn-secondary-outline {
-    @apply border border-[#3FC1C9] bg-[#F5F7F8] text-[#3FC1C9];
+    @apply border border-[#FC5185] bg-[#F5F7F8] text-[#FC5185];
   }
 
   .btn-blue {
