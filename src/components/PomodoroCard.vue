@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import type { GetPomodoroSession } from '@/services';
+import { computed, ref } from 'vue';
+import { usePomodoroStore } from '@/stores/pomodoro';
 
+
+import PlayIcon from './icons/PlayIcon.vue';
 import CircleCheck from './icons/CircleCheck.vue';
 import FireIcon from './icons/FireIcon.vue';
 
-import { computed, ref, watch } from 'vue';
 
 interface Props {
   pomodoro: GetPomodoroSession
@@ -12,9 +15,11 @@ interface Props {
 
 interface Emits {
   (e: 'remove', pomodoro: GetPomodoroSession): void
+  (e: 'action:start', pomodoro: GetPomodoroSession): void
 }
 
 const $emits = defineEmits<Emits>()
+const $pomodoro = usePomodoroStore()
 const $props = defineProps<Props>()
 
 const showIcon = ref<boolean>(false);
@@ -38,28 +43,31 @@ function remove() {
 </script>
 
 <template>
-  <div>
-    <div class="bg-[#F5F5F5] text-white px-4 py-2 rounded-md flex gap-2 items-center shadow-lg">
-
-      <div 
-        @click="remove" 
-        class="bg-white border border-black rounded-full"
-        :class="{'p-3': !showIcon}"
-      >
-        <CircleCheck v-if="showIcon" class="bg-green-500 size-6 rounded-full" />
-      </div>
-
-      <div class="text-[#253240]">
-        <p class="font-bold uppercase">{{ pomodoro.title }}</p>
-        
-        <div class="flex gap-0.5">
-          <FireIcon v-for="(_, index) in completedPomodoros" :key="index" class="text-[#ED447A] size-4" />
-          <FireIcon v-if="pomodoro.isActive" class="text-[#ED447A] size-4"/>
-          <FireIcon v-for="(_, index) in uncompletedPomodoros" :key="index" class="text-[#ED447A] size-4 opacity-40"/>
+    <div class="bg-[#F5F5F5] text-white px-4 py-2 rounded-md flex gap-2 items-center justify-between shadow-lg">
+      <div class="flex items-center gap-2">
+        <div 
+          @click="remove" 
+          class="bg-white border border-black rounded-full"
+          :class="{'p-3': !showIcon}"
+        >
+          <CircleCheck v-if="showIcon" class="bg-green-500 size-6 rounded-full" />
+        </div>
+  
+        <div class="text-[#253240]">
+          <p class="font-bold uppercase">{{ pomodoro.title }}</p>
+          
+          <div class="flex gap-0.5">
+            <FireIcon v-for="(_, index) in completedPomodoros" :key="index" class="text-[#ED447A] size-4" />
+            <FireIcon v-if="pomodoro.isActive" class="text-[#ED447A] size-4"/>
+            <FireIcon v-for="(_, index) in uncompletedPomodoros" :key="index" class="text-[#ED447A] size-4 opacity-40"/>
+          </div>
         </div>
       </div>
+
+      <div @click="$emit('action:start', pomodoro)">
+        <PlayIcon class="size-6 bg-[#FC5185] text-white rounded-full p-0.5 cursor-pointer" />
+      </div>
     </div>
-  </div>
 </template>
 
 <style>
