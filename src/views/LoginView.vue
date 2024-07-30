@@ -30,8 +30,10 @@ const handleSubmit = async () => {
   <div class="h-screen flex justify-center items-center">
     <div class="w-1/4 min-w-80 space-y-4">
       <figure class="w-40 mx-auto">
-        <img class="w-full" src="/phantom.png" alt="">
+        <img class="w-full img-logo" src="/phantom.png" alt="">
       </figure>
+
+      <h2 class='text-center text-3xl font-black text-white'>PhantomFocus</h2>
 
       <form class="space-y-4 md:space-y-6" @submit.prevent="handleSubmit">
         <div>
@@ -66,10 +68,3 @@ const handleSubmit = async () => {
     </div>
   </div>
 </template>
-
-
-<style>
-img {
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
-}
-</style>

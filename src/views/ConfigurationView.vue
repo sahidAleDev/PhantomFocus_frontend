@@ -147,7 +147,7 @@ onBeforeMount(async () => {
           <InputNumber id="minutos-de-trabajo-por-sesión" v-model:value="workDuration"/>
         </div>
 
-        <button type="submit" class="btn-primary btn-medium w-full">Guardar</button>
+        <button type="submit" class="btn-secondary btn-medium w-full">Guardar</button>
       </form>
     </section>
 

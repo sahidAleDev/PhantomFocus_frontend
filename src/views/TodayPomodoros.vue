@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import useServices, { type GetPomodoroSession, type GetConfiguration } from '@/services'
 import { onBeforeMount, ref } from 'vue';
-
+import { usePomodoroStore } from '@/stores/pomodoro';
 /**
  * ------------------------------------------
  *	Components
@@ -10,12 +10,14 @@ import { onBeforeMount, ref } from 'vue';
 import LoadSkeleton from '@/components/widgets/LoadSkeleton.vue';
 import PomodoroCard from '@/components/PomodoroCard.vue'
 import DialogPomodoro from '@/components/widgets/DialogPomodoro.vue';
+import RevealCircle from '@/components/RevealCircle.vue';
 /**
  * ------------------------------------------
  *	Utils
  * ------------------------------------------
  */
 const $service = useServices()
+const $pomodoro = usePomodoroStore()
 
 /**
  * ------------------------------------------
@@ -27,9 +29,24 @@ const configurations = ref<GetConfiguration[]>([])
 const loading = ref<boolean>(true)
 const pomodoros = ref<GetPomodoroSession[]>([])
 const showDialog = ref<boolean>(false)
+const showRevealCircle = ref<boolean>(false)
+const selectedPomodoro = ref<GetPomodoroSession | null>(null)
 
 function removeItem(pomodoroToRemove: GetPomodoroSession) {
   pomodoros.value = pomodoros.value.filter((pomodoro) => pomodoro._id !== pomodoroToRemove._id)
+}
+
+
+/**
+ * ------------------------------------------
+ *	Methods
+ * ------------------------------------------
+ */
+
+const handleStart = (pomodoro: GetPomodoroSession) => {
+  $pomodoro.startSession(pomodoro)
+  console.log(selectedPomodoro.value)
+  showRevealCircle.value = true
 }
 
 onBeforeMount(async () => {
@@ -53,17 +70,19 @@ onBeforeMount(async () => {
 
 <template>
   <DialogPomodoro v-if="showDialog" @action:cancel="showDialog = false" :configurations="configurations"/>
-  
+  <RevealCircle v-show="showRevealCircle" main-text="hola" secondary-text="bye" type="success"/>
+
   <div class="space-y-6">
 
     <button class="btn-small btn-primary" @click="showDialog = true">Crear sesión</button>
 
-    <div v-if="!loading" class="grid grid-cols-1 lg:grid-cols-3 gap-2 " v-auto-animate>
+    <div v-if="!loading" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2 " v-auto-animate>
       <PomodoroCard 
         v-for="(pomodoro, index) in pomodoros" 
         :key="`${pomodoro._id}-${index}`" 
         :pomodoro="pomodoro"
         @remove="removeItem"
+        @action:start="handleStart"
       />
     </div>
 

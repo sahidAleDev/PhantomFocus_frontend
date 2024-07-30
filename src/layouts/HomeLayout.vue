@@ -54,9 +54,12 @@ const handleLogout = async () => {
       </section>
 
       <div class="flex flex-col lg:flex-row justify-center items-center gap-4">
+        <figure class="block lg:hidden  w-20">
+          <img class="w-full img-logo" src="/phantom.png" alt="">
+        </figure>
         <h2 class='text-center text-3xl font-black text-white'>PhantomFocus</h2>
-        <figure class="w-20">
-          <img class="w-full" src="/phantom.png" alt="">
+        <figure class="hidden lg:block  w-20">
+          <img class="w-full img-logo" src="/phantom.png" alt="">
         </figure>
       </div>
 
@@ -84,7 +87,7 @@ const handleLogout = async () => {
       </nav>
   </aside>
 
-  <main class="w-2/3 mx-auto">
+  <main class="h-full w-2/3 mx-auto py-10">
     <RouterView/>
   </main>
 </template>
