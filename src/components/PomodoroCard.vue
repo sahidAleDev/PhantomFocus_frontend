@@ -1,14 +1,23 @@
 <script setup lang="ts">
 import type { GetPomodoroSession } from '@/services';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { usePomodoroStore } from '@/stores/pomodoro';
+import type { StatusSession } from '@/stores/pomodoro';
 
-
+/**
+ * ------------------------------------------
+ *	Components
+ * ------------------------------------------
+ */
 import PlayIcon from './icons/PlayIcon.vue';
 import CircleCheck from './icons/CircleCheck.vue';
 import FireIcon from './icons/FireIcon.vue';
 
-
+/**
+ * ------------------------------------------
+ *	Utils
+ * ------------------------------------------
+ */
 interface Props {
   pomodoro: GetPomodoroSession
 }
@@ -19,22 +28,33 @@ interface Emits {
 }
 
 const $emits = defineEmits<Emits>()
-const $pomodoro = usePomodoroStore()
 const $props = defineProps<Props>()
+const $pomodoro = usePomodoroStore()
 
+/**
+ * ------------------------------------------
+ *	Data
+ * ------------------------------------------
+ */
+
+ const classByStatus: Record<StatusSession, string> = {
+  'completed': 'text-[#FC5185]',
+  'current': 'text-[#3FC1C9]',
+  'pending': 'text-[#FC5185]/20'
+}
 const showIcon = ref<boolean>(false);
 
-const completedPomodoros = computed(() => {
-  const cycles = $props.pomodoro.currentCycle;
-  return cycles > 0 ? cycles - 1 : 0;
-})
 
-const uncompletedPomodoros = computed(() => {
-  const cyclesBeforeLongBreak = $props.pomodoro.cyclesBeforeLongBreak;
-  const currentCycle = $props.pomodoro.currentCycle;
-  return cyclesBeforeLongBreak > currentCycle ? cyclesBeforeLongBreak - currentCycle : 0;
-})
+/**
+ * ------------------------------------------
+ *	Methods
+ * ------------------------------------------
+ */
 
+/**
+ * remove
+ *
+ */ 
 function remove() {
   showIcon.value = true;
   $emits('remove', $props.pomodoro);
@@ -57,9 +77,7 @@ function remove() {
           <p class="font-bold uppercase">{{ pomodoro.title }}</p>
           
           <div class="flex gap-0.5">
-            <FireIcon v-for="(_, index) in completedPomodoros" :key="index" class="text-[#ED447A] size-4" />
-            <FireIcon v-if="pomodoro.isActive" class="text-[#ED447A] size-4"/>
-            <FireIcon v-for="(_, index) in uncompletedPomodoros" :key="index" class="text-[#ED447A] size-4 opacity-40"/>
+            <FireIcon v-for="(status, index) in $pomodoro.cycleStatus(pomodoro)" :key="index" :class="classByStatus[status]" />
           </div>
         </div>
       </div>

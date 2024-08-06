@@ -12,7 +12,7 @@ interface Props {
 
 const $props = defineProps<Props>();
 
-const totalTime = computed(() => {
+const totalTime = computed<number>(() => {
   return $props.configuration.cyclesBeforeLongBreak * $props.configuration.workDuration + 
     ($props.configuration.cyclesBeforeLongBreak - 1) * $props.configuration.breakDuration + 
     $props.configuration.longBreakDuration;
@@ -21,12 +21,12 @@ const totalTime = computed(() => {
 
 <template>
   <div class="bg-[#F5F5F5] rounded-xl p-4 space-y-4 text-[#506A88]">
-    <h2 class="text-lg font-bold uppercase">Configuración</h2>
+    <h2 class="text-lg font-bold uppercase">{{ configuration.name }}</h2>
 
     <div>
       <p class="flex justify-between">
         <span class="flex items-center gap-1">
-          <ClockIcon class="size-5 text-[#506A88]" />
+          <ClockIcon class="size-5 text-[#ED447A]" />
           Sesiones de trabajo
         </span>
         
@@ -39,7 +39,7 @@ const totalTime = computed(() => {
   
       <p class="flex justify-between">
         <span class="flex items-center gap-1">
-          <PauseIcon class="size-5 text-[#506A88]" />
+          <PauseIcon class="size-5 text-[#ED447A]" />
           Descansos cortos
         </span>
         
@@ -50,7 +50,7 @@ const totalTime = computed(() => {
       
       <p class="flex justify-between">
         <span class="flex items-center gap-1">
-          <FaceIcon class="size-5 text-[#506A88]" />
+          <FaceIcon class="size-5 text-[#ED447A]" />
           Descanso largo
         </span>
         

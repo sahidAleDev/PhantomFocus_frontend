@@ -30,7 +30,6 @@ const loading = ref<boolean>(true)
 const pomodoros = ref<GetPomodoroSession[]>([])
 const showDialog = ref<boolean>(false)
 const showRevealCircle = ref<boolean>(false)
-const selectedPomodoro = ref<GetPomodoroSession | null>(null)
 
 function removeItem(pomodoroToRemove: GetPomodoroSession) {
   pomodoros.value = pomodoros.value.filter((pomodoro) => pomodoro._id !== pomodoroToRemove._id)
@@ -44,8 +43,8 @@ function removeItem(pomodoroToRemove: GetPomodoroSession) {
  */
 
 const handleStart = (pomodoro: GetPomodoroSession) => {
+  console.log(pomodoro)
   $pomodoro.startSession(pomodoro)
-  console.log(selectedPomodoro.value)
   showRevealCircle.value = true
 }
 
@@ -70,7 +69,7 @@ onBeforeMount(async () => {
 
 <template>
   <DialogPomodoro v-if="showDialog" @action:cancel="showDialog = false" :configurations="configurations"/>
-  <RevealCircle v-show="showRevealCircle" main-text="hola" secondary-text="bye" type="success"/>
+  <RevealCircle v-show="showRevealCircle" main-text="hola" secondary-text="bye" type="success" @action:cancel="showRevealCircle = false"/>
 
   <div class="space-y-6">
 

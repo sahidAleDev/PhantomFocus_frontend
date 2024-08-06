@@ -22,7 +22,7 @@
   }
   
   .btn-secondary {
-    @apply bg-[#FC5185] text-[#F5F7F8];
+    @apply bg-[#FC5185] text-[#F5F7F8] hover:bg-[#ED447A];
   }
 
   .btn-secondary-outline {
@@ -52,4 +52,8 @@
   .container-dialog-input {
     @apply grid grid-cols-none grid-rows-2 sm:grid-cols-5 sm:grid-rows-1 gap-x-8 items-center
   }
+}
+
+.img-logo {
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
 }
