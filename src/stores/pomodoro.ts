@@ -9,6 +9,7 @@ export type StatusSession = 'completed' | 'pending' | 'current';
 export const usePomodoroStore = defineStore(STORE_NAME, () => {
 
   // DATA
+  const pomodoroSessions = ref<GetPomodoroSession[]>([]);
   const isSessionEnded = ref<boolean>(false);
   const isWorkCycle = ref<boolean>(true); 
   const pauseRemainingTime = ref<number>(0);
@@ -20,6 +21,7 @@ export const usePomodoroStore = defineStore(STORE_NAME, () => {
 
   const getIsActive = computed(() => session.value?.isActive);
   const getIsWorkCycle = computed(() => isWorkCycle.value);
+  const getPomodoroSessions = computed<GetPomodoroSession[]>(() => pomodoroSessions.value);
 
   const minutes = computed(() => {
     const mins = Math.floor(remainingTime.value / 60);
@@ -56,14 +58,28 @@ export const usePomodoroStore = defineStore(STORE_NAME, () => {
     return statusArray;
   }
 
+  // SETTERS 
+
+  function setPomodoroSessions(sessions: GetPomodoroSession[]) { 
+    pomodoroSessions.value = sessions;
+  } 
+
   // METHODS
+
+  
   function startSession(sessionProp: GetPomodoroSession) {
     console.log('Starting session');
     console.log('Work session');
+    console.log(sessionProp.pauseRemainingTime, 'pauseRemainingTime');
     session.value = {...sessionProp};
     session.value.isActive = true; // Activar la sesión
     isWorkCycle.value = true; // Iniciar con un ciclo de trabajo
-    remainingTime.value = sessionProp.workDuration * 60; // Convertir a segundos
+    if(sessionProp.pauseRemainingTime != 0) {
+      remainingTime.value = sessionProp.pauseRemainingTime; 
+    } else {
+      remainingTime.value = sessionProp.workDuration * 60; // Convertir a segundos
+    }
+
     startTimer();
   }
 
@@ -77,24 +93,24 @@ export const usePomodoroStore = defineStore(STORE_NAME, () => {
       } else {
         handleCycleEnd();
       }
-    }, 100);
+    }, 1000);
   }
 
   function pauseSession() {
     if (timer.value) {
       clearInterval(timer.value);
     }
-    pauseRemainingTime.value = remainingTime.value; // Almacenar el tiempo restante al pausar
-
+    
     if (session.value) {
-      session.value.pauseTime = new Date();
+      pauseRemainingTime.value = remainingTime.value; // Almacenar el tiempo restante al pausar
+      session.value.pauseRemainingTime = pauseRemainingTime.value;
+      console.log(`Paused remaining time: ${session.value.pauseRemainingTime}`);
       session.value.isActive = false;
     }
   }
 
   function resumeSession() {
     if (session.value) {
-      session.value.resumeTime = new Date();
       remainingTime.value = pauseRemainingTime.value; // Restaurar el tiempo restante almacenado
       session.value.isActive = true;
       startTimer();
@@ -103,7 +119,7 @@ export const usePomodoroStore = defineStore(STORE_NAME, () => {
 
   function handleCycleEnd() {
     if (isSessionEnded.value) {
-      endSession();
+      finishSession();
       return;
     }
 
@@ -133,7 +149,7 @@ export const usePomodoroStore = defineStore(STORE_NAME, () => {
     }
   }
 
-  function endSession() {
+  function finishSession() {
     if (timer.value) {
       clearInterval(timer.value);
     }
@@ -144,6 +160,14 @@ export const usePomodoroStore = defineStore(STORE_NAME, () => {
       console.log('Session ended');
     }
 
+    clearSession();
+  }
+
+  function clearSession() {
+    if (timer.value) {
+      clearInterval(timer.value);
+    }
+    session.value = null;
     isWorkCycle.value = true;
     remainingTime.value = 0;
     pauseRemainingTime.value = 0;
@@ -155,19 +179,23 @@ export const usePomodoroStore = defineStore(STORE_NAME, () => {
     cycleStatus,
     getIsActive,
     getIsWorkCycle,
-    isWorkCycle, // Añadir a los datos retornados
+    getPomodoroSessions,
+    isWorkCycle, 
     minutes,
-    pauseRemainingTime, // Añadir a los datos retornados
+    pauseRemainingTime,
+    pomodoroSessions,
     remainingTime,
     seconds,
     session,
     timer,
 
     // Methods
-    endSession,
+    clearSession,
+    finishSession,
     handleCycleEnd,
     pauseSession,
     resumeSession,
+    setPomodoroSessions,
     startSession,
     startTimer,
   };

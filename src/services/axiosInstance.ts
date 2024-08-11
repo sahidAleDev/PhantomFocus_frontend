@@ -39,6 +39,9 @@ export function useService() {
     postPomodoroSession: (data: PostPomodoroSession) => 
       $api.post('/pomodoSession', data),
 
+    updatePomodoroSession: (id: string,data: PostPomodoroSession) =>
+      $api.put(`/pomodoSession/${id}`, data),
+
     postConfiguration: (data: PostConfiguration) =>
       $api.post<GetConfiguration>('/configuration', data),
 

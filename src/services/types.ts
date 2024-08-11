@@ -7,8 +7,7 @@ export interface PostPomodoroSession {
   isActive: boolean;
   isCompleted: boolean;
   longBreakDuration: number;
-  pauseTime: Date;
-  resumeTime: Date;
+  pauseRemainingTime: number;
   startTime: Date;
   title: string;
   userId: string;
