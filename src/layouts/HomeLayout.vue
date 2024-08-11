@@ -10,10 +10,9 @@ import useService from '@/services';
  *	Components
  * ------------------------------------------
  */
-
 import UserCircleIcon from '@/components/icons/UserCircleIcon.vue';
 import ArrowRightBracket from '@/components/icons/ArrowRightBracket.vue';
-import DialogPomodoro from '@/components/widgets/DialogPomodoro.vue';
+
 /**
  * ------------------------------------------
  *	Utils
@@ -22,12 +21,16 @@ import DialogPomodoro from '@/components/widgets/DialogPomodoro.vue';
 const $user = useUserStore()
 const $router = useRouter()
 const $service  = useService()
+
 /**
  * ------------------------------------------
  *	Methods
  * ------------------------------------------
  */
 
+/**
+ * handleLogout
+ */
 const handleLogout = async () => {
   try {
     await $service.logout()
@@ -37,20 +40,21 @@ const handleLogout = async () => {
     console.log(error)
   }
 }
-
 </script>
 
 <template>
-
+  <AlertNotification />
   
   <aside class="px-10 py-10">
-      <section class="flex justify-end items-center gap-4 mb-20">
-        <div class="flex items-center gap-1 text-white">
-          <UserCircleIcon class="size-5" />
-          <p class="text-2xl">{{ $user.getUser?.username }}</p>
+      <section class="flex justify-between items-center gap-4 mb-20">
+        <div class="flex items-center gap-2 text-white">
+          <ArrowRightBracket @click="handleLogout" class="size-4 lg:size-6 text-white cursor-pointer rotate-180" />
+          <p class="text-lg lg:text-2xl">Cerrar Sesión</p> 
         </div>
-
-        <ArrowRightBracket @click="handleLogout" class="size-6 text-white cursor-pointer" />
+        <div class="flex items-center gap-2 text-white">
+          <UserCircleIcon class="size-4 lg:size-6" />
+          <p class="text-lg lg:text-2xl">{{ $user.getUser?.username.toUpperCase() }}</p>
+        </div>
       </section>
 
       <div class="flex flex-col lg:flex-row justify-center items-center gap-4">
@@ -63,23 +67,23 @@ const handleLogout = async () => {
         </figure>
       </div>
 
-      <nav class="mt-10 w-2/3 md:w-1/3 mx-auto gap-x-12 gap-y-4 pb-4 text-white flex flex-wrap justify-center items-cente border border-l-0 border-t-0 border-r-0 border-b">
+      <nav class="mt-10 w-2/3 lg:w-1/3 mx-auto gap-x-12 gap-y-4 pb-4 text-white flex flex-wrap justify-center items-cente border border-l-0 border-t-0 border-r-0 border-b">
         <RouterLink
-          class="text-white text-2xl block hover:text-[#D5E1F0]"
+          class="text-white text-2xl block hover:text-[#FCCED6]"
           :to="{ name: ROUTES.TODAY_TASK }"
         >
           Sesiones
         </RouterLink>
         
         <RouterLink
-          class="text-white text-2xl block hover:text-[#D5E1F0]"
+          class="text-white text-2xl block hover:text-[#FCCED6]"
           :to="{ name: ROUTES.TOMORROW_TASK }"
         >
           Completadas
         </RouterLink>
 
         <RouterLink
-          class="text-white text-2xl block hover:text-[#D5E1F0]"
+          class="text-white text-2xl block hover:text-[#FCCED6]"
           :to="{ name: ROUTES.CONFIGURATION }"
         >
           Configuraciones

@@ -37,7 +37,7 @@ const $pomodoro = usePomodoroStore()
  * ------------------------------------------
  */
 
- const classByStatus: Record<StatusSession, string> = {
+const classByStatus: Record<StatusSession, string> = {
   'completed': 'text-[#FC5185]',
   'current': 'text-[#3FC1C9]',
   'pending': 'text-[#FC5185]/20'
@@ -53,7 +53,6 @@ const showIcon = ref<boolean>(false);
 
 /**
  * remove
- *
  */ 
 function remove() {
   showIcon.value = true;
@@ -64,21 +63,11 @@ function remove() {
 
 <template>
     <div class="bg-[#F5F5F5] text-white px-4 py-2 rounded-md flex gap-2 items-center justify-between shadow-lg">
-      <div class="flex items-center gap-2">
-        <div 
-          @click="remove" 
-          class="bg-white border border-black rounded-full"
-          :class="{'p-3': !showIcon}"
-        >
-          <CircleCheck v-if="showIcon" class="bg-green-500 size-6 rounded-full" />
-        </div>
-  
-        <div class="text-[#253240]">
-          <p class="font-bold uppercase">{{ pomodoro.title }}</p>
-          
-          <div class="flex gap-0.5">
-            <FireIcon v-for="(status, index) in $pomodoro.cycleStatus(pomodoro)" :key="index" :class="classByStatus[status]" />
-          </div>
+      <div class="text-[#253240]">
+        <p class="font-bold uppercase">{{ pomodoro.title }}</p>
+        
+        <div class="flex gap-0.5">
+          <FireIcon v-for="(status, index) in $pomodoro.cycleStatus(pomodoro)" :key="index" class="size-6"  :class="classByStatus[status]" />
         </div>
       </div>
 

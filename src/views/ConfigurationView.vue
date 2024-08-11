@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onBeforeMount, ref } from 'vue';
 import useServices, { type GetConfiguration } from '@/services'
-
+import { useNotificationStore } from '@/stores/notification';
 
 /**
  * ------------------------------------------
@@ -19,13 +19,13 @@ import InputLabel from '@/components/forms/InputLabel.vue';
  * ------------------------------------------
  */
 const $service = useServices()
+const $notificationStore = useNotificationStore()
 
 /**
  * ------------------------------------------
  *	Data
  * ------------------------------------------
  */
-
 enum NAV {
   LIST_CONFIG = 0,
   CREATE_CONFIG = 1
@@ -73,10 +73,12 @@ const handleSubmit = async () => {
     })
 
     console.log(data)
-
     await getConfigurations()
+    $notificationStore.showNotification('Configuración creada', 'success')
+    currentNav.value = NAV.LIST_CONFIG
   } catch (error) {
     console.error(error)
+    $notificationStore.showNotification('Error al crear la configuración', 'error')
   }
 
 };

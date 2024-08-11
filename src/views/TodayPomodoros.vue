@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import useServices, { type GetPomodoroSession, type GetConfiguration } from '@/services'
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, ref, watch } from 'vue';
 import { usePomodoroStore } from '@/stores/pomodoro';
 /**
  * ------------------------------------------
@@ -27,7 +27,7 @@ const $pomodoro = usePomodoroStore()
 
 const configurations = ref<GetConfiguration[]>([])
 const loading = ref<boolean>(true)
-const pomodoros = ref<GetPomodoroSession[]>([])
+const pomodoros = ref<GetPomodoroSession[]>($pomodoro.pomodoroSessions)
 const showDialog = ref<boolean>(false)
 const showRevealCircle = ref<boolean>(false)
 
@@ -52,8 +52,7 @@ onBeforeMount(async () => {
   try {
     loading.value = true
     const { data: dataPomdoroSession } = await $service.getPomodoroSessions('')
-    pomodoros.value = dataPomdoroSession
-    console.log(pomodoros.value)
+    $pomodoro.setPomodoroSessions(dataPomdoroSession)
     const { data: dataConfigurations } = await $service.getConfigurations()
     configurations.value = dataConfigurations
 
@@ -65,6 +64,14 @@ onBeforeMount(async () => {
   }
 })
 
+// Watcher to sync store changes with local pomodoros variable
+watch(
+  () => $pomodoro.pomodoroSessions,
+  (newSessions) => {
+    pomodoros.value = newSessions;
+  },
+  { immediate: true } // Syncs initially as well
+);
 </script>
 
 <template>
