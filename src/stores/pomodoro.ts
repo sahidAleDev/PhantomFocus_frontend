@@ -1,43 +1,54 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import type { GetPomodoroSession } from '@/services';
-
+import useService  from '@/services';
 const STORE_NAME = 'pomodoro';
 
 export type StatusSession = 'completed' | 'pending' | 'current';
 
 export const usePomodoroStore = defineStore(STORE_NAME, () => {
+  // Utils
+  const $service = useService();
 
   // DATA
-  const pomodoroSessions = ref<GetPomodoroSession[]>([]);
   const isSessionEnded = ref<boolean>(false);
   const isWorkCycle = ref<boolean>(true); 
   const pauseRemainingTime = ref<number>(0);
+  const pomodoroSession = ref<GetPomodoroSession>();
+  const pomodoroSessions = ref<GetPomodoroSession[]>([]);
   const remainingTime = ref<number>(0);
-  const session = ref<GetPomodoroSession | null>(null);
   const timer = ref<number | null>(null);
+  const hasSession = computed(() => pomodoroSession.value !== null);
 
   // GETTERS
-
-  const getIsActive = computed(() => session.value?.isActive);
+  const getIsActive = computed(() => pomodoroSession.value?.isActive);
   const getIsWorkCycle = computed(() => isWorkCycle.value);
   const getPomodoroSessions = computed<GetPomodoroSession[]>(() => pomodoroSessions.value);
-
   const minutes = computed(() => {
     const mins = Math.floor(remainingTime.value / 60);
     return mins < 10 ? `0${mins}` : `${mins}`;
   });
-
   const seconds = computed(() => {
     const secs = remainingTime.value % 60;
     return secs < 10 ? `0${secs}` : `${secs}`;
   });
+  const completedSessions = computed(() => pomodoroSessions.value.filter(session => session.isCompleted));
+  const uncompletedSessions = computed(() => pomodoroSessions.value.filter(session => !session.isCompleted));
 
+  // SETTERS 
+  function setPomodoroSessions(sessions: GetPomodoroSession[]) { 
+    pomodoroSessions.value = sessions;
+  } 
 
+  // METHODS
+
+  /**
+   * cycleStatus
+   */ 
   function cycleStatus(sessionProp?: GetPomodoroSession): StatusSession[] {
-    if (!sessionProp && !session.value) return [];
-    else if (!sessionProp && session.value) {
-      sessionProp = session.value;
+    if (!sessionProp && !pomodoroSession.value) return [];
+    else if (!sessionProp && pomodoroSession.value) {
+      sessionProp = pomodoroSession.value;
     }
     
     const statusArray: StatusSession[] = [];
@@ -58,21 +69,15 @@ export const usePomodoroStore = defineStore(STORE_NAME, () => {
     return statusArray;
   }
 
-  // SETTERS 
-
-  function setPomodoroSessions(sessions: GetPomodoroSession[]) { 
-    pomodoroSessions.value = sessions;
-  } 
-
-  // METHODS
-
-  
+  /**
+   * startSession
+   */ 
   function startSession(sessionProp: GetPomodoroSession) {
     console.log('Starting session');
     console.log('Work session');
     console.log(sessionProp.pauseRemainingTime, 'pauseRemainingTime');
-    session.value = {...sessionProp};
-    session.value.isActive = true; // Activar la sesión
+    pomodoroSession.value = {...sessionProp};
+    pomodoroSession.value.isActive = true; // Activar la sesión
     isWorkCycle.value = true; // Iniciar con un ciclo de trabajo
     if(sessionProp.pauseRemainingTime != 0) {
       remainingTime.value = sessionProp.pauseRemainingTime; 
@@ -83,6 +88,9 @@ export const usePomodoroStore = defineStore(STORE_NAME, () => {
     startTimer();
   }
 
+  /**
+   * startTimer
+   */ 
   function startTimer() {
     if (timer.value) {
       clearInterval(timer.value);
@@ -93,30 +101,39 @@ export const usePomodoroStore = defineStore(STORE_NAME, () => {
       } else {
         handleCycleEnd();
       }
-    }, 1000);
+    }, 10);
   }
 
+  /**
+   * pauseSession
+   */ 
   function pauseSession() {
     if (timer.value) {
       clearInterval(timer.value);
     }
     
-    if (session.value) {
+    if (pomodoroSession.value) {
       pauseRemainingTime.value = remainingTime.value; // Almacenar el tiempo restante al pausar
-      session.value.pauseRemainingTime = pauseRemainingTime.value;
-      console.log(`Paused remaining time: ${session.value.pauseRemainingTime}`);
-      session.value.isActive = false;
+      pomodoroSession.value.pauseRemainingTime = pauseRemainingTime.value;
+      console.log(`Paused remaining time: ${pomodoroSession.value.pauseRemainingTime}`);
+      pomodoroSession.value.isActive = false;
     }
   }
 
+  /**
+   * resumeSession
+   */ 
   function resumeSession() {
-    if (session.value) {
+    if (pomodoroSession.value) {
       remainingTime.value = pauseRemainingTime.value; // Restaurar el tiempo restante almacenado
-      session.value.isActive = true;
+      pomodoroSession.value.isActive = true;
       startTimer();
     }
   }
 
+  /**
+   * handleCycleEnd
+   */ 
   function handleCycleEnd() {
     if (isSessionEnded.value) {
       finishSession();
@@ -127,67 +144,89 @@ export const usePomodoroStore = defineStore(STORE_NAME, () => {
       clearInterval(timer.value);
     }
 
-    if (session.value) {
+    if (pomodoroSession.value) {
       if (isWorkCycle.value) {
-        session.value.currentCycle++;
+        pomodoroSession.value.currentCycle++;
         isWorkCycle.value = false; // Cambiar a ciclo de descanso
 
-        if (session.value.currentCycle >= session.value.cyclesBeforeLongBreak) {
-          remainingTime.value = session.value.longBreakDuration * 60; // Descanso largo
+        if (pomodoroSession.value.currentCycle >= pomodoroSession.value.cyclesBeforeLongBreak) {
+          remainingTime.value = pomodoroSession.value.longBreakDuration * 60; // Descanso largo
           isSessionEnded.value = true;
           console.log('Long break');
         } else {
-          remainingTime.value = session.value.breakDuration * 60; // Descanso corto
+          remainingTime.value = pomodoroSession.value.breakDuration * 60; // Descanso corto
           console.log('Short break');
         }
       } else {
         isWorkCycle.value = true; // Cambiar a ciclo de trabajo
-        remainingTime.value = session.value.workDuration * 60; // Convertir a segundos
+        remainingTime.value = pomodoroSession.value.workDuration * 60; // Convertir a segundos
         console.log('Work session');
       }
       startTimer();
     }
   }
 
+  /**
+   * finishSession
+   */ 
   function finishSession() {
     if (timer.value) {
       clearInterval(timer.value);
     }
-    if (session.value) {
-      console.log(session.value);
-      session.value.isCompleted = true;
-      session.value.isActive = false;
-      console.log('Session ended');
+    if (pomodoroSession.value) {
+      console.log(pomodoroSession.value);
+      pomodoroSession.value.isCompleted = true;
+      pomodoroSession.value.isActive = false;
+      $service.updatePomodoroSession(pomodoroSession.value._id, pomodoroSession.value);
+      updateSession();
     }
 
     clearSession();
   }
 
+  /**
+   * clearSession
+   */ 
   function clearSession() {
     if (timer.value) {
       clearInterval(timer.value);
     }
-    session.value = null;
+    pomodoroSession.value = undefined;
     isWorkCycle.value = true;
     remainingTime.value = 0;
     pauseRemainingTime.value = 0;
     isSessionEnded.value = false;
   }
 
+  /**
+   * updateSession
+   */
+  function updateSession() {
+    if (pomodoroSession.value) {
+      const index = pomodoroSessions.value.findIndex(sessionItem => sessionItem._id === pomodoroSession.value?._id);
+      if (index !== -1) {
+        pomodoroSessions.value.splice(index, 1, pomodoroSession.value);
+      }
+    }
+  }
+
   return { 
     // Data
+    completedSessions,
     cycleStatus,
     getIsActive,
     getIsWorkCycle,
     getPomodoroSessions,
+    hasSession,
     isWorkCycle, 
     minutes,
     pauseRemainingTime,
+    pomodoroSession,
     pomodoroSessions,
     remainingTime,
     seconds,
-    session,
     timer,
+    uncompletedSessions,
 
     // Methods
     clearSession,
@@ -198,5 +237,6 @@ export const usePomodoroStore = defineStore(STORE_NAME, () => {
     setPomodoroSessions,
     startSession,
     startTimer,
+    updateSession,
   };
 });

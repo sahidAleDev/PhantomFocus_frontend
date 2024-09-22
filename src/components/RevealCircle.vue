@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { usePomodoroStore } from '@/stores/pomodoro';
 import type { StatusSession } from '@/stores/pomodoro';
-import useService from '@/services';
+import useService, { type GetPomodoroSession } from '@/services';
 
 /**
  * ------------------------------------------
@@ -58,7 +58,7 @@ const showDialog = ref<boolean>(false)
  */
 const handleClickTransition = () => {
   transition.value = 'circle-leave-active'
-  $pomodoro.session = null
+  $pomodoro.pomodoroSession = undefined
   $emit('action:cancel')
 }
 
@@ -75,7 +75,6 @@ const handleDialog = () => {
  *
  */
  const leaveWithoutSave = () => {
-  console.log('Leave without save')
   $pomodoro.clearSession()
   showDialog.value = false
   handleClickTransition()
@@ -87,29 +86,47 @@ const handleDialog = () => {
  */
 const saveProgress = async () => {
   try {
-    if(!$pomodoro.session) return
-  
-    const reponse = await $service.updatePomodoroSession($pomodoro.session._id,$pomodoro.session)
-    console.log(reponse)
-    console.log('Save progress')
-
+    const session = $pomodoro.pomodoroSession;
+    if (!session) return; // Verifica si es null antes de continuar
+    await $service.updatePomodoroSession(session._id, session);
+    $pomodoro.updateSession();
   } catch (error) {
-    console.error(error)    
+    console.error(error);    
   }
 }
+
+
+/**
+ * handleSaveAndExit
+ */
+const handleSaveAndExit = () => {
+  $pomodoro.pauseSession()
+  $pomodoro.updateSession()
+  saveProgress()
+  $pomodoro.clearSession()
+  showDialog.value = false
+  handleClickTransition()
+}
+
+watch(() => $pomodoro.pomodoroSession, (newSession) => {
+  if (newSession === undefined) {
+    transition.value = 'circle-enter-active';
+    $emit('action:cancel');
+  }
+}, { immediate: true });
 </script>
 
 <template>
   <transition name="circle">
-    <div v-if="true"  class="fixed z-10 top-0 bottom-0 left-0 right-0 bg-slate-950">
+    <div v-if="true" class="fixed z-10 top-0 bottom-0 left-0 right-0 bg-slate-950">
       <div class="min-h-screen bg-[radial-gradient(circle_500px_at_50%_200px,#3e3e3e,transparent)]">
 
-        <DialogConfirm v-if="showDialog" @action:close="showDialog=false" @action:not-save="leaveWithoutSave"  />
+        <DialogConfirm v-if="showDialog" @action:save-and-exit="handleSaveAndExit" @action:not-save="leaveWithoutSave"  />
 
         <div class="px-10 py-10">
           <section class="flex items-center gap-4 mb-20 text-white cursor-pointer">
 
-            <AngleLeftIcon @click="handleDialog" class="size-6 hover:bg-[#364F6B] rounded-sm transition" />
+            <AngleLeftIcon @click="handleDialog" class="size-6 hover:bg-[#364F6B] rounded-md transition" />
             Regresar
           </section>
   
@@ -131,7 +148,7 @@ const saveProgress = async () => {
             </div>
   
             <h2 class="text-2xl ">
-              {{ $pomodoro.session?.title }}
+              {{ $pomodoro.pomodoroSession?.title }}
             </h2>
   
   
@@ -145,16 +162,14 @@ const saveProgress = async () => {
               </div>
             </div>
   
-            <button v-if="$pomodoro.getIsActive" @click="$pomodoro.pauseSession()" class="btn-medium btn-primary w-36">
-              Pausar
-            </button>
-
-            <div v-else class="flex justify-center gap-4">
-              <button class="btn-medium btn-primary w-36" @click="$pomodoro.resumeSession()">
+            
+            <div class="flex justify-center gap-4">
+              <button v-if="$pomodoro.getIsActive" @click="$pomodoro.pauseSession()" class="btn-medium btn-primary w-36">
+                Pausar
+              </button>
+              <button v-else class="btn-medium btn-primary w-36" @click="$pomodoro.resumeSession()">
                 Reanudar
               </button>
-
-              <button class="btn-medium btn-secondary" @click="saveProgress">Guardar progreso</button>
             </div>
           </section>
         </div>

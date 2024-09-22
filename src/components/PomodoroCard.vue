@@ -10,7 +10,6 @@ import type { StatusSession } from '@/stores/pomodoro';
  * ------------------------------------------
  */
 import PlayIcon from './icons/PlayIcon.vue';
-import CircleCheck from './icons/CircleCheck.vue';
 import FireIcon from './icons/FireIcon.vue';
 
 /**
@@ -71,8 +70,10 @@ function remove() {
         </div>
       </div>
 
-      <div @click="$emit('action:start', pomodoro)">
-        <PlayIcon class="size-6 bg-[#FC5185] text-white rounded-full p-0.5 cursor-pointer" />
+      <div v-if="!pomodoro.isCompleted">
+        <div @click="$emit('action:start', pomodoro)">
+          <PlayIcon class="size-6 bg-[#FC5185] text-white rounded-full p-0.5 cursor-pointer" />
+        </div>
       </div>
     </div>
 </template>

@@ -10,27 +10,19 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: ROUTES.HOME,
       meta: { requiresAuth: true },
       component: HomeLayout,
       children: [
         {
-          path: 'tareas-hoy',
-          name: ROUTES.TODAY_TASK,
-          component: () => import('@/views/TodayPomodoros.vue')
-
+          path: '',
+          name: ROUTES.POMODORO_SESSIONS,
+          component: () => import('@/views/PomodoroSessions.vue')
         },
         {
-          path: 'tareas-mañana',
-          name: ROUTES.TOMORROW_TASK,
-          component: () => import('@/views/TomorrowPomodoros.vue')
-
-        },
-        {
-          path: 'tareas-semana',
-          name: ROUTES.WEEK_TASK,
-          component: () => import('@/views/WeekPomodoros.vue')
-
+          path: 'completadas',
+          name: ROUTES.COMPLETED_SESSIONS,
+          component: () => import('@/views/CompletedSessions.vue')
         },
         {
           path: 'configuracion',

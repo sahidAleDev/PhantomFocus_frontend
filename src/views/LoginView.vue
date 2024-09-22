@@ -19,7 +19,7 @@ const handleSubmit = async () => {
   try {
     const { data } = await $service.login(user.value);
     $user.setUser(data.user);
-    $router.push({ name: ROUTES.HOME });
+    $router.push({ name: ROUTES.POMODORO_SESSIONS });
   } catch (error) {
     console.error(error);
   }

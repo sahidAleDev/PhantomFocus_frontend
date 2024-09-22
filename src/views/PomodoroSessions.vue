@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import useServices, { type GetPomodoroSession, type GetConfiguration } from '@/services'
-import { onBeforeMount, ref, watch } from 'vue';
+import { computed, onBeforeMount, ref, watch } from 'vue';
 import { usePomodoroStore } from '@/stores/pomodoro';
 /**
  * ------------------------------------------
@@ -24,17 +24,11 @@ const $pomodoro = usePomodoroStore()
  *	Data
  * ------------------------------------------
  */
-
 const configurations = ref<GetConfiguration[]>([])
 const loading = ref<boolean>(true)
-const pomodoros = ref<GetPomodoroSession[]>($pomodoro.pomodoroSessions)
+const pomodoros = computed(() => $pomodoro.uncompletedSessions)
 const showDialog = ref<boolean>(false)
 const showRevealCircle = ref<boolean>(false)
-
-function removeItem(pomodoroToRemove: GetPomodoroSession) {
-  pomodoros.value = pomodoros.value.filter((pomodoro) => pomodoro._id !== pomodoroToRemove._id)
-}
-
 
 /**
  * ------------------------------------------
@@ -48,10 +42,14 @@ const handleStart = (pomodoro: GetPomodoroSession) => {
   showRevealCircle.value = true
 }
 
+function removeItem(pomodoroToRemove: GetPomodoroSession) {
+}
+
 onBeforeMount(async () => {
   try {
     loading.value = true
     const { data: dataPomdoroSession } = await $service.getPomodoroSessions('')
+    console.log(dataPomdoroSession)
     $pomodoro.setPomodoroSessions(dataPomdoroSession)
     const { data: dataConfigurations } = await $service.getConfigurations()
     configurations.value = dataConfigurations
@@ -63,15 +61,6 @@ onBeforeMount(async () => {
     loading.value = false
   }
 })
-
-// Watcher to sync store changes with local pomodoros variable
-watch(
-  () => $pomodoro.pomodoroSessions,
-  (newSessions) => {
-    pomodoros.value = newSessions;
-  },
-  { immediate: true } // Syncs initially as well
-);
 </script>
 
 <template>
@@ -82,7 +71,7 @@ watch(
 
     <button class="btn-small btn-primary" @click="showDialog = true">Crear sesión</button>
 
-    <div v-if="!loading" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2 " v-auto-animate>
+    <div v-if="!loading" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2" v-auto-animate>
       <PomodoroCard 
         v-for="(pomodoro, index) in pomodoros" 
         :key="`${pomodoro._id}-${index}`" 

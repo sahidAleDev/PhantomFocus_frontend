@@ -70,14 +70,14 @@ const handleLogout = async () => {
       <nav class="mt-10 w-2/3 lg:w-1/3 mx-auto gap-x-12 gap-y-4 pb-4 text-white flex flex-wrap justify-center items-cente border border-l-0 border-t-0 border-r-0 border-b">
         <RouterLink
           class="text-white text-2xl block hover:text-[#FCCED6]"
-          :to="{ name: ROUTES.TODAY_TASK }"
+          :to="{ name: ROUTES.POMODORO_SESSIONS }"
         >
           Sesiones
         </RouterLink>
         
         <RouterLink
           class="text-white text-2xl block hover:text-[#FCCED6]"
-          :to="{ name: ROUTES.TOMORROW_TASK }"
+          :to="{ name: ROUTES.COMPLETED_SESSIONS }"
         >
           Completadas
         </RouterLink>

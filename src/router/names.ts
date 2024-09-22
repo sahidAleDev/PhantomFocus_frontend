@@ -1,8 +1,7 @@
 export enum ROUTES {
-  HOME = 'home',
-  TODAY_TASK = 'today-task',
-  TOMORROW_TASK = 'tomorrow-task',
-  WEEK_TASK = 'week-task',
+  COMPLETED_SESSIONS = 'completed-sessions',
   CONFIGURATION = 'configuration',
-  LOGIN = 'login' 
+  HOME = 'home',
+  LOGIN = 'login',
+  POMODORO_SESSIONS = 'pomodoro-sessions',
 }
